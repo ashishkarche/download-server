@@ -20,7 +20,7 @@ const DownloadPage = () => {
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
-            window.location.href = `https://server-iota-lime-93.vercel.app//download?token=${tokenFromUrl}`;
+            window.location.href = `https://server-iota-lime-93.vercel.app/download?token=${tokenFromUrl}`;
           } else {
             setIsValidToken(false);
           }
