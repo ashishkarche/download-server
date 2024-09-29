@@ -16,11 +16,11 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .post('https://server-xx52.vercel.app/check-token', { token: tokenFromUrl })
+        .post('https://server-mv8w.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
-            window.location.href = `https://server-xx52.vercel.app/download?token=${tokenFromUrl}`;
+            window.location.href = `https://server-mv8w.vercel.app/download?token=${tokenFromUrl}`;
           } else {
             setIsValidToken(false);
           }
