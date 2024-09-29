@@ -16,7 +16,7 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .post('https://server-iota-lime-93.vercel.app//check-token', { token: tokenFromUrl })
+        .post('https://server-iota-lime-93.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
