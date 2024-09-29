@@ -16,11 +16,11 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .post('https://server-mv8w.vercel.app/check-token', { token: tokenFromUrl })
+        .post('https://server-3g2ezzrui-ashishkarches-projects.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
-            window.location.href = `https://server-mv8w.vercel.app/download?token=${tokenFromUrl}`;
+            window.location.href = `https://server-3g2ezzrui-ashishkarches-projects.vercel.app/download?token=${tokenFromUrl}`;
           } else {
             setIsValidToken(false);
           }
