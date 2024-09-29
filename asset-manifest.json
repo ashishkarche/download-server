@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/download-server/static/css/main.e6c13ad2.css",
-    "main.js": "/download-server/static/js/main.40940fbd.js",
+    "main.js": "/download-server/static/js/main.0c26f7c4.js",
     "static/js/453.63b9339e.chunk.js": "/download-server/static/js/453.63b9339e.chunk.js",
     "index.html": "/download-server/index.html",
     "main.e6c13ad2.css.map": "/download-server/static/css/main.e6c13ad2.css.map",
-    "main.40940fbd.js.map": "/download-server/static/js/main.40940fbd.js.map",
+    "main.0c26f7c4.js.map": "/download-server/static/js/main.0c26f7c4.js.map",
     "453.63b9339e.chunk.js.map": "/download-server/static/js/453.63b9339e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.40940fbd.js"
+    "static/js/main.0c26f7c4.js"
   ]
 }
