@@ -16,11 +16,11 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .post('https://server-coral-kappa-23.vercel.app/check-token', { token: tokenFromUrl })
+        .post('https://server-two-self-13.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
-            window.location.href = `https://server-coral-kappa-23.vercel.app/download?token=${tokenFromUrl}`;
+            window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
           } else {
             setIsValidToken(false);
           }
