@@ -20,7 +20,12 @@ const DownloadPage = () => {
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
+            // Initiate the download
             window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
+            // Wait for a short duration to allow the download to start, then close the window
+            setTimeout(() => {
+              window.close();
+            }, 2000); // Adjust the timeout as necessary
           } else {
             setIsValidToken(false);
           }
