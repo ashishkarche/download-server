@@ -4,6 +4,7 @@ import axios from 'axios';
 const DownloadPage = () => {
   const [token, setToken] = useState('');
   const [isValidToken, setIsValidToken] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const getUrlParameter = (name) => {
     const regex = new RegExp(`[?&]${name}=([^&#]*)`, 'i');
@@ -20,19 +21,17 @@ const DownloadPage = () => {
         .then((response) => {
           if (response.data.success) {
             setIsValidToken(true);
-            // Initiate the download
+            // Initiate the download after confirming token validity
             window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
-            // Wait for a short duration to allow the download to start, then close the window
-            setTimeout(() => {
-              window.close();
-            }, 2000); // Adjust the timeout as necessary
           } else {
             setIsValidToken(false);
+            setErrorMessage('Link is expired or invalid.');
           }
         })
         .catch((error) => {
           console.error('Error: ', error);
           setIsValidToken(false);
+          setErrorMessage('An error occurred while validating the token.');
         });
     }
   }, []);
@@ -42,7 +41,7 @@ const DownloadPage = () => {
       <h1>File Download Page</h1>
       {token === '' && <p>Token is missing from the URL.</p>}
       {token && isValidToken === null && <p>Validating token...</p>}
-      {isValidToken === false && <p>Token is not valid.</p>}
+      {isValidToken === false && <p>{errorMessage}</p>}
     </div>
   );
 };
