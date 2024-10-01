@@ -6,6 +6,7 @@ const DownloadPage = () => {
   const [isValidToken, setIsValidToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Function to extract the token from the URL
   const getUrlParameter = (name) => {
     const regex = new RegExp(`[?&]${name}=([^&#]*)`, 'i');
     const results = regex.exec(window.location.search);
@@ -16,13 +17,16 @@ const DownloadPage = () => {
     const tokenFromUrl = getUrlParameter('token');
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
+
+      // Check the token validity by making an API call
       axios
         .post('https://server-two-self-13.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
-            // Proceed to download
+            // If token is valid, proceed to download the file
             window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
           } else {
+            // If token is expired, display the message and close the window
             setIsValidToken(false);
             setErrorMessage('Link is expired.'); // Set the expired link message
             closeWindow(); // Close the window after displaying the message
@@ -34,14 +38,18 @@ const DownloadPage = () => {
           setErrorMessage('An error occurred while validating the token.');
           closeWindow(); // Close the window after displaying the message
         });
+    } else {
+      // If no token is present in the URL, display an error message
+      setIsValidToken(false);
+      setErrorMessage('Token is missing from the URL.');
     }
   }, []);
 
+  // Function to close the window after showing the message
   const closeWindow = () => {
-    // Display message if necessary, then close the window
     setTimeout(() => {
-      window.close(); // Close the window after a brief delay
-    }, 2000); // Optional delay for user to read the message
+      window.close();
+    }, 5000); // Keep the window open for 5 seconds so the user can see the message
   };
 
   return (
