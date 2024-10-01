@@ -17,37 +17,39 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .get(`https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`)
+        .post('https://server-two-self-13.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
-          // Handle valid download
-          if (response.status === 200) {
-            setIsValidToken(true);
-            // Proceed with download, browser will automatically handle it
+          if (response.data.success) {
+            // Proceed to download
+            window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
+          } else {
+            setIsValidToken(false);
+            setErrorMessage('Link is expired.'); // Set the expired link message
+            closeWindow(); // Close the window after displaying the message
           }
         })
         .catch((error) => {
-          // Handle expired token or other errors
-          if (error.response && error.response.status === 403) {
-            setErrorMessage('Link is expired.');
-            setIsValidToken(false);
-            // Close the window after 3 seconds
-            setTimeout(() => {
-              window.close();
-            }, 3000);
-          } else {
-            setErrorMessage('An error occurred. Please try again later.');
-            setIsValidToken(false);
-          }
+          console.error('Error: ', error);
+          setIsValidToken(false);
+          setErrorMessage('An error occurred while validating the token.');
+          closeWindow(); // Close the window after displaying the message
         });
     }
   }, []);
+
+  const closeWindow = () => {
+    // Display message if necessary, then close the window
+    setTimeout(() => {
+      window.close(); // Close the window after a brief delay
+    }, 2000); // Optional delay for user to read the message
+  };
 
   return (
     <div>
       <h1>File Download Page</h1>
       {token === '' && <p>Token is missing from the URL.</p>}
       {token && isValidToken === null && <p>Validating token...</p>}
-      {isValidToken === false && <p>{errorMessage}</p>}
+      {isValidToken === false && <p>{errorMessage}</p>} {/* Show error message */}
     </div>
   );
 };
