@@ -17,21 +17,27 @@ const DownloadPage = () => {
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
       axios
-        .post('https://server-two-self-13.vercel.app/check-token', { token: tokenFromUrl })
+        .get(`https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`)
         .then((response) => {
-          if (response.data.success) {
+          // Handle valid download
+          if (response.status === 200) {
             setIsValidToken(true);
-            // Initiate the download after confirming token validity
-            window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
-          } else {
-            setIsValidToken(false);
-            setErrorMessage('Link is expired or invalid.');
+            // Proceed with download, browser will automatically handle it
           }
         })
         .catch((error) => {
-          console.error('Error: ', error);
-          setIsValidToken(false);
-          setErrorMessage('An error occurred while validating the token.');
+          // Handle expired token or other errors
+          if (error.response && error.response.status === 403) {
+            setErrorMessage('Link is expired.');
+            setIsValidToken(false);
+            // Close the window after 3 seconds
+            setTimeout(() => {
+              window.close();
+            }, 3000);
+          } else {
+            setErrorMessage('An error occurred. Please try again later.');
+            setIsValidToken(false);
+          }
         });
     }
   }, []);
