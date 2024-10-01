@@ -23,10 +23,10 @@ const DownloadPage = () => {
         .post('https://server-two-self-13.vercel.app/check-token', { token: tokenFromUrl })
         .then((response) => {
           if (response.data.success) {
-            // If token is valid, proceed to download the file
-            window.location.href = `https://server-two-self-13.vercel.app/download?token=${tokenFromUrl}`;
+            // If token is valid, proceed to check for expiration
+            checkLinkExpiry(tokenFromUrl);
           } else {
-            // If token is expired, display the message and close the window
+            // Token validation failed
             setIsValidToken(false);
             setErrorMessage('Link is expired.'); // Set the expired link message
             closeWindow(); // Close the window after displaying the message
@@ -44,6 +44,29 @@ const DownloadPage = () => {
       setErrorMessage('Token is missing from the URL.');
     }
   }, []);
+
+  const checkLinkExpiry = (token) => {
+    // Check for link expiry
+    axios
+      .get(`https://server-two-self-13.vercel.app/download?token=${token}`)
+      .then((response) => {
+        if (response.status === 403) {
+          // Link has expired
+          setIsValidToken(false);
+          setErrorMessage('Link is expired.'); // Set the expired link message
+          closeWindow(); // Close the window after displaying the message
+        } else if (response.status === 200) {
+          // If valid and not expired, proceed to download
+          window.location.href = response.request.responseURL; // Navigate to download URL
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking link expiry:', error);
+        setIsValidToken(false);
+        setErrorMessage('An error occurred while checking link expiry.');
+        closeWindow(); // Close the window after displaying the message
+      });
+  };
 
   // Function to close the window after showing the message
   const closeWindow = () => {
